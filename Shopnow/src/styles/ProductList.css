@@ -1,0 +1,166 @@
+
+.product-list {
+  background: #f8f8f8;
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+
+.search-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 2rem;
+}
+
+.search-bar {
+  width: 280px;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  outline: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #fff;
+}
+
+.search-bar:focus {
+  border-color: #ff5e00;
+  box-shadow: 0px 4px 10px rgba(255, 94, 0, 0.3);
+}
+
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+
+.product-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #eee;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+
+.product-image-container {
+  width: 100%;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.product-card img {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+}
+
+
+.product-title {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0.5rem 0;
+  color: #333;
+  height: 45px; 
+  overflow: hidden;
+}
+
+.product-price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ff5e00;
+  margin-bottom: 1rem;
+}
+
+
+.add-btn {
+  background-color: #ff5e00;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.3s ease;
+  width: 70%;
+}
+
+.add-btn:hover {
+  background-color: #e65100;
+}
+
+.product-link {
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  width: 20px;
+}
+
+.pagination button:hover {
+  background-color: #ff5e00;
+  color: #fff;
+  border-color: #ff5e00;
+}
+
+.pagination button.active {
+  background-color: #ff5e00;
+  color: #fff;
+  border-color: #ff5e00;
+}
+
+
+.search-bar {
+  padding-left: 30px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  outline: none;
+  transition: all 0.3s ease;
+  margin-bottom:20px;
+  position:relative;
+}
+
+.search-bar:focus {
+  border-color: #ff5e00;
+  box-shadow: 0px 4px 8px rgba(255, 94, 0, 0.3);
+}
+
+
+.search-icon {
+  left:45px;
+  position:absolute;
+  margin-top:13px;
+}
