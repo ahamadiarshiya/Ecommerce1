@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Header.css';
 import { AiOutlineLogout } from "react-icons/ai";
 import { FaUser } from 'react-icons/fa'
@@ -32,6 +32,10 @@ export default function Header() {
 
   const cartInfo = JSON.parse(localStorage.getItem('cartItems')) || []
   const count = cartInfo.length || 0;
+
+  const location = useLocation()
+
+  const isCartPage = location.pathname === "/cart"
 
 
 
@@ -82,10 +86,12 @@ export default function Header() {
 
 
         <div className="header-right">
+          {!isCartPage && (
           <Link to="/cart" className="cart-container">
             <img src="src/data/shopping-cart.png" alt="cartlogo" className="icon-img" />
             <span className="cart-label">Cart({count})</span>
           </Link>
+          )}
 
           <div className='profile-icon'> <FaUser /> </div> 
 
