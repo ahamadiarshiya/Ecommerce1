@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../styles/ProductList.css';
 import { IoIosSearch } from "react-icons/io";
 
 export default function ProductList() {
+  const [allProducts, setAllProducts] = useState([]);
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [addedIds, setAddedIds] = useState([]);
@@ -11,42 +12,34 @@ export default function ProductList() {
   const [searchInput, setSearchInput] = useState('');
   const productsPerPage = 12;
 
-  const location = useLocation();
-  const navigate = useNavigate();
-
+  // ✅ Fetch all products once
   useEffect(() => {
     setLoading(true);
-
-    const queryParams = new URLSearchParams(location.search);
-    const category = queryParams.get('category');
-    const search = queryParams.get('search');
-
-    let url = 'https://dummyjson.com/products?limit=100';
-    if (category) url = `https://dummyjson.com/products/category/${category}`;
-
-    fetch(url)
+    fetch('https://dummyjson.com/products?limit=100')
       .then(res => res.json())
       .then(data => {
-        const items = data.products || data;
-        let filtered = items;
-
-        if (search) {
-          filtered = items.filter(p =>
-            p.title.toLowerCase().includes(search.toLowerCase())
-          );
-        }
-
-        setProducts(filtered);
-        setCurrentPage(1);
-        setLoading(false); 
+        setAllProducts(data.products);
+        setProducts(data.products);
+        setLoading(false);
       })
       .catch(err => {
         console.error(err);
-        setLoading(false); 
+        setLoading(false);
       });
+  }, []);
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [location]);
+  // ✅ Automatically filter when user types 3+ characters or clears input
+  useEffect(() => {
+    if (searchInput.trim().length === 0) {
+      setProducts(allProducts);
+    } else if (searchInput.trim().length >= 3) {
+      const filtered = allProducts.filter(p =>
+        p.title.toLowerCase().includes(searchInput.toLowerCase())
+      );
+      setProducts(filtered);
+      setCurrentPage(1);
+    }
+  }, [searchInput, allProducts]);
 
   const indexOfLast = currentPage * productsPerPage;
   const indexOfFirst = indexOfLast - productsPerPage;
@@ -67,31 +60,24 @@ export default function ProductList() {
     setAddedIds(prev => [...prev, product.id]);
   };
 
-  if (loading) {
-    return null; 
-  }
-
-
-    const handleSearch = e => {
-    e.preventDefault();
-    if (searchInput.trim()) {
-      navigate(`/products?search=${encodeURIComponent(searchInput.trim())}`);
-      setSearchInput('');
-    }
-  };
+  if (loading) return null;
 
   return (
     <div className="product-list">
-          <form onSubmit={handleSearch}>
-            <input
-              type="text"
-              placeholder="Search..."
-              className="search-bar"
-              value={searchInput}
-              onChange={e => setSearchInput(e.target.value)}
-            />
-            <span className='search-icon'><IoIosSearch /></span>
-          </form>
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search..."
+          className="search-bar"
+          value={searchInput}
+          onChange={e => setSearchInput(e.target.value)}
+          onClick={() => {
+            if (!searchInput.trim()) setProducts(allProducts);
+          }}
+        />
+        <span className='search-icon'><IoIosSearch /></span>
+      </div>
+
       {products.length === 0 ? (
         <h2 className="no-products">No products found.</h2>
       ) : (
@@ -125,11 +111,16 @@ export default function ProductList() {
               <button
                 key={i}
                 className={`page-btn ${currentPage === i + 1 ? 'active' : ''}`}
-                onClick={() => setCurrentPage(i + 1)}
+                onClick={() => {
+                  setCurrentPage(i + 1);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
               >
                 {i + 1}
               </button>
             ))}
+
+  
           </div>
         </>
       )}
