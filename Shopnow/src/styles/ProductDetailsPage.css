@@ -75,6 +75,8 @@
   border-radius: 6px;
   border: 1px solid #ddd;
   outline: none;
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 .add-to-cart-btn {

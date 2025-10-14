@@ -87,7 +87,7 @@ function ProductDetailsPage() {
           <label>
             Quantity:
             <select
-              size="10"
+            // size={10}
               value={quantity}
               onChange={(e) => setQuantity(Number(e.target.value))}
             >
