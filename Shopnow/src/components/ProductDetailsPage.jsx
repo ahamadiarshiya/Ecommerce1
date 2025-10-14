@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/ProductDetailsPage.css";
+import CustomDropdown from "../components/customDropdown"
 
 function ProductDetailsPage() {
   const { id } = useParams();
@@ -86,17 +87,7 @@ function ProductDetailsPage() {
         <div className="purchase">
           <label>
             Quantity:
-            <select
-            // size={10}
-              value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
-            >
-              {[...Array(30).keys()].map((i) => (
-                <option key={i + 1} value={i + 1}>
-                  {i + 1}
-                </option>
-              ))}
-            </select>
+            <CustomDropdown />
           </label>
 
           <button className="add-to-cart-btn" onClick={handleAddToCart}>
