@@ -7,6 +7,7 @@ import { FaUser } from 'react-icons/fa'
 export default function Header() {
   const [categories, setCategories] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,14 +30,36 @@ export default function Header() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-
-  const cartInfo = JSON.parse(localStorage.getItem('cartItems')) || []
-  const count = cartInfo.length || 0;
-
   const location = useLocation()
 
   const isCartPage = location.pathname === "/cart"
 
+
+  const updateCartCount = () => {
+    const cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    setCartCount(totalCount);
+  };
+
+  useEffect(() => {
+    updateCartCount();
+  }, []);
+
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'cartItems') {
+        updateCartCount();
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  // 🟢 Optional: Polling (for same-tab changes if other components update localStorage directly)
+  useEffect(() => {
+    const interval = setInterval(updateCartCount, 1000); // Every second
+    return () => clearInterval(interval);
+  }, []);
 
 
   return (
@@ -89,7 +112,7 @@ export default function Header() {
           {!isCartPage && (
           <Link to="/cart" className="cart-container">
             <img src="src/data/shopping-cart.png" alt="cartlogo" className="icon-img" />
-            <span className="cart-label">Cart({count})</span>
+            <span className="cart-label">Cart({cartCount})</span>
           </Link>
           )}
 

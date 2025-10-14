@@ -42,7 +42,7 @@ function ProductDetailsPage() {
 
     if (existingItemIndex >= 0) {
  
-      existingCart[existingItemIndex].quantity += quantity;
+      existingCart[existingItemIndex].quantity = quantity;
     } else {
      
       existingCart.push({ id: product.id, quantity });
@@ -87,10 +87,11 @@ function ProductDetailsPage() {
           <label>
             Quantity:
             <select
+              size="10"
               value={quantity}
               onChange={(e) => setQuantity(Number(e.target.value))}
             >
-              {[...Array(10).keys()].map((i) => (
+              {[...Array(30).keys()].map((i) => (
                 <option key={i + 1} value={i + 1}>
                   {i + 1}
                 </option>
