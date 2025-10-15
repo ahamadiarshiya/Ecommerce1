@@ -32,7 +32,8 @@ export default function Header() {
 
   const location = useLocation()
 
-  const isCartPage = location.pathname === "/cart"
+  const isCartPage = location.pathname === "/cart";
+  const isProductPage = location.pathname === "/products"
 
 
   const updateCartCount = () => {
@@ -71,11 +72,10 @@ export default function Header() {
         </div>
 
 
-        <nav className="nav-links">
-          <span onClick={goToProducts}>Products</span>
-
-
-          <div
+        <div className="header-right">
+          <nav className="nav-links">
+          {!isProductPage && ( <span onClick={goToProducts}>Products</span> )}
+           <div
             className="dropdown"
             onMouseEnter={() => setShowDropdown(true)}
             onMouseLeave={() => setShowDropdown(false)}
@@ -91,12 +91,14 @@ export default function Header() {
                     key={idx}
                     className="dropdown-item"
                     onClick={() => {
-
-                      const categoryParam = cat.slug || cat;
-                      navigate(`/products?category=${categoryParam}`);
+                  
+                      const categoryParam = (cat.slug || cat).toLowerCase().replace(/\s+/g, '-');
+                      navigate(`/products?category=${encodeURIComponent(categoryParam)}`);
                       setShowDropdown(false);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
+
+
                   >
                     {cat.name || cat}
                   </div>
@@ -104,18 +106,15 @@ export default function Header() {
               </div>
             )}
           </div>
-        </nav>
-
-
-        <div className="header-right">
+          </nav>
           {!isCartPage && (
-          <Link to="/cart" className="cart-container">
-            <img src="src/data/shopping-cart.png" alt="cartlogo" className="icon-img" />
-            <span className="cart-label">Cart({cartCount})</span>
-          </Link>
+            <Link to="/cart" className="cart-container">
+              <img src="src/data/shopping-cart.png" alt="cartlogo" className="icon-img" />
+              <span className="cart-label">Cart({cartCount})</span>
+            </Link>
           )}
 
-          <div className='profile-icon'> <FaUser /> </div> 
+          <div className='profile-icon'> <FaUser /> </div>
 
           <div className='logout-container'>
             <span className="logout-icon"><Link to="/login">  <AiOutlineLogout /> </Link> </span>

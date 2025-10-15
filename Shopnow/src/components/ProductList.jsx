@@ -12,24 +12,9 @@ export default function ProductList() {
   const [searchInput, setSearchInput] = useState('');
   const productsPerPage = 15;
 
-  const location = useLocation()
+  const location = useLocation();
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const category = params.get('category');
- 
-    if (category) {
-      const filtered = allProducts.filter(
-        (p) => p.category?.toLowerCase() === category.toLowerCase()
-      );
-      setProducts(filtered);
-      setCurrentPage(1);
-    } else {
-      setProducts(allProducts);
-    }
-  }, [location.search, allProducts]);
 
-  // Fetch all products once when component mounting
   useEffect(() => {
     setLoading(true);
     fetch('https://dummyjson.com/products?limit=100')
@@ -45,6 +30,45 @@ export default function ProductList() {
       });
   }, []);
 
+
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const ids = cart.map(item => item.id);
+    setAddedIds(ids);
+  }, []);
+
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'cartItems') {
+        const cart = JSON.parse(e.newValue) || [];
+        const ids = cart.map(item => item.id);
+        setAddedIds(ids);
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+    setAddedIds(cart.map(item => item.id));
+  }, [location]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const category = params.get('category');
+
+    if (category) {
+      const filtered = allProducts.filter(
+        (p) => p.category?.toLowerCase() === category.toLowerCase()
+      );
+      setProducts(filtered);
+      setCurrentPage(1);
+    } else {
+      setProducts(allProducts);
+    }
+  }, [location.search, allProducts]);
 
   useEffect(() => {
     if (searchInput.trim().length === 0) {
@@ -74,7 +98,7 @@ export default function ProductList() {
     }
 
     localStorage.setItem('cartItems', JSON.stringify(existingCart));
-    setAddedIds(prev => [...prev, product.id]);
+    setAddedIds(prev => [...new Set([...prev, product.id])]);
   };
 
   if (loading) return null;
@@ -88,9 +112,6 @@ export default function ProductList() {
           className="search-bar"
           value={searchInput}
           onChange={e => setSearchInput(e.target.value)}
-          onClick={() => {
-            if (!searchInput.trim()) setProducts(allProducts);
-          }}
         />
         <span className='search-icon'><IoIosSearch /></span>
       </div>
@@ -136,8 +157,6 @@ export default function ProductList() {
                 {i + 1}
               </button>
             ))}
-
-  
           </div>
         </>
       )}
