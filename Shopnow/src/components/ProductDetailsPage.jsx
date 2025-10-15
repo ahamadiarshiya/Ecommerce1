@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/ProductDetailsPage.css";
-import CustomDropdown from "../components/customDropdown"
+import CustomDropdown from "../components/CustomDropdown"
 
 function ProductDetailsPage() {
   const { id } = useParams();
@@ -87,7 +87,13 @@ function ProductDetailsPage() {
         <div className="purchase">
           <label>
             Quantity:
-            <CustomDropdown />
+           {quantity !== 1 ? (
+              <CustomDropdown quantity={quantity} 
+              onQuantityChange={handleQuantityChange} />
+            ) : (
+              <CustomDropdown  />
+            )
+            }
           </label>
 
           <button className="add-to-cart-btn" onClick={handleAddToCart}>

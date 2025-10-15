@@ -1,12 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../styles/CustomDropdown.css";
 
-const CustomDropdown = () => {
+const CustomDropdown = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(1);
   const dropdownRef = useRef(null);
 
   const numbers = Array.from({ length: 30 }, (_, i) => i + 1);
+
+ useEffect(() => {
+    if (props.quantity !== undefined) {
+      setSelected(props.quantity);
+    }
+  }, [props.quantity]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -17,6 +23,15 @@ const CustomDropdown = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+
+  const handleSelect = (num) => {
+    setSelected(num);
+    setIsOpen(false);
+    if (props.onQuantityChange) {
+      props.onQuantityChange(num); // Notify parent
+    }
+  };
 
   return (
     <div ref={dropdownRef} className="dropdown-container">
@@ -31,10 +46,7 @@ const CustomDropdown = () => {
             <div
               key={num}
               className={`dropdown-item ${num === selected ? "selected" : ""}`}
-              onClick={() => {
-                setSelected(num);
-                setIsOpen(false);
-              }}
+              onClick={() => handleSelect(num)}
               onMouseEnter={(e) => e.currentTarget.classList.add("hover")}
               onMouseLeave={(e) => e.currentTarget.classList.remove("hover")}
             >

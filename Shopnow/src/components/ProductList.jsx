@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import '../styles/ProductList.css';
 import { IoIosSearch } from "react-icons/io";
 
@@ -10,7 +10,24 @@ export default function ProductList() {
   const [addedIds, setAddedIds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState('');
-  const productsPerPage = 12;
+  const productsPerPage = 15;
+
+  const location = useLocation()
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const category = params.get('category');
+ 
+    if (category) {
+      const filtered = allProducts.filter(
+        (p) => p.category?.toLowerCase() === category.toLowerCase()
+      );
+      setProducts(filtered);
+      setCurrentPage(1);
+    } else {
+      setProducts(allProducts);
+    }
+  }, [location.search, allProducts]);
 
   // ✅ Fetch all products once
   useEffect(() => {
