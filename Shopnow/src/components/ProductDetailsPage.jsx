@@ -87,13 +87,11 @@ function ProductDetailsPage() {
         <div className="purchase">
           <label>
             Quantity:
-           {quantity !== 1 ? (
-              <CustomDropdown quantity={quantity} 
-              onQuantityChange={handleQuantityChange} />
-            ) : (
-              <CustomDropdown  />
-            )
-            }
+           <CustomDropdown
+  quantity={quantity}
+  onQuantityChange={(newQty) => setQuantity(newQty)}
+/>
+
           </label>
 
           <button className="add-to-cart-btn" onClick={handleAddToCart}>
