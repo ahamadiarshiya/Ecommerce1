@@ -29,7 +29,7 @@ export default function ProductList() {
     }
   }, [location.search, allProducts]);
 
-  // ✅ Fetch all products once
+  // Fetch all products once when component mounting
   useEffect(() => {
     setLoading(true);
     fetch('https://dummyjson.com/products?limit=100')
@@ -45,7 +45,7 @@ export default function ProductList() {
       });
   }, []);
 
-  // ✅ Automatically filter when user types 3+ characters or clears input
+
   useEffect(() => {
     if (searchInput.trim().length === 0) {
       setProducts(allProducts);

@@ -55,7 +55,6 @@ export default function Header() {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
-  // 🟢 Optional: Polling (for same-tab changes if other components update localStorage directly)
   useEffect(() => {
     const interval = setInterval(updateCartCount, 1000); // Every second
     return () => clearInterval(interval);

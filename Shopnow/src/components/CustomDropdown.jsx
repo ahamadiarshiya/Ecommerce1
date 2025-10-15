@@ -29,7 +29,7 @@ const CustomDropdown = (props) => {
     setSelected(num);
     setIsOpen(false);
     if (props.onQuantityChange) {
-      props.onQuantityChange(num); // Notify parent
+      props.onQuantityChange(num);
     }
   };
 
