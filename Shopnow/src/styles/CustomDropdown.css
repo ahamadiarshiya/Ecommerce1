@@ -22,7 +22,7 @@
 
 .dropdown-list {
   position: absolute;
-  top: 100%; /* Always below */
+  top: 100%; 
   left: 0;
   right: 0;
   max-height: 200px;
