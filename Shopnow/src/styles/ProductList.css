@@ -121,13 +121,16 @@
 }
 
 .pagination button {
-  padding: 0.5rem 0.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
   border: 1px solid #ddd;
   background-color: #fff;
   cursor: pointer;
   border-radius: 4px;
   transition: all 0.2s ease;
-  width: 20px;
+  width: 30px;
 }
 
 .pagination button:hover {
