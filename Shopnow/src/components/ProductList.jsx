@@ -10,7 +10,7 @@ export default function ProductList() {
   const [addedIds, setAddedIds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState('');
-  const productsPerPage = 12;
+  const productsPerPage = 15;
 
   const location = useLocation();
 
