@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/Footer.css";
 import { FaFacebookF, FaInstagram, FaTwitter, FaCcVisa, FaCcMastercard, FaCcPaypal } from "react-icons/fa";
+import { Link } from 'react-router-dom'
 
 export default function Footer() {
   return (
@@ -15,10 +16,10 @@ export default function Footer() {
         <div className="footer-links">
           <h3>Quick Links</h3>
           <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/products">Shop</a></li>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><Link to="/">Home </Link></li>
+            <li><Link to="/products">Shop</Link></li>
+            <li><Link to="/about">About Us</Link></li>
+            <li><Link to="/contact">Contact</Link></li>
           </ul>
         </div>
 
@@ -26,18 +27,18 @@ export default function Footer() {
         <div className="footer-links">
           <h3>Customer Service</h3>
           <ul>
-            <li><a href="/faq">FAQs</a></li>
-            <li><a href="/returns">Returns</a></li>
-            <li><a href="/shipping">Shipping Info</a></li>
-            <li><a href="/support">Help Center</a></li>
+            <li><Link to="/faq">FAQs</Link></li>
+            <li><Link to="/returns">Returns</Link></li>
+            <li><Link to="/shipping">Shipping Info</Link></li>
+            <li><Link to="/support">Help Center</Link></li>
           </ul>
         </div>
         <div className="footer-social">
           <h3>Follow Us</h3>
           <div className="social-icons">
-            <a href="#"><FaFacebookF /></a>
-            <a href="#"><FaInstagram /></a>
-            <a href="#"><FaTwitter /></a>
+            <Link to="#"><FaFacebookF /></Link>
+            <Link to="#"><FaInstagram /></Link>
+            <Link to="#"><FaTwitter /></Link>
           </div>
           <h3>We Accept</h3>
           <div className="payment-icons">
