@@ -57,7 +57,7 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(updateCartCount, 1000); // Every second
+    const interval = setInterval(updateCartCount, 1000); // Cart is updated for every second
     return () => clearInterval(interval);
   }, []);
 
