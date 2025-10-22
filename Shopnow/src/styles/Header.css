@@ -189,8 +189,7 @@
 .logout-icon {
    position:absolute;
    left:0px;
-   top:10%;
-   color: #333 !important;
+   top:10%; 
   fill: currentColor; 
    transform: rotate(-90deg);
   transition: transform 0.3s ease;

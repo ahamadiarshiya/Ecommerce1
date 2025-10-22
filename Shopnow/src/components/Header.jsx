@@ -119,7 +119,7 @@ export default function Header() {
           <div className='profile-icon'> <FaUser /> </div>
 
           <div className='logout-container'>
-            <span className="logout-icon"><Link to="/login">  <AiOutlineLogout /> </Link> </span>
+            <span className="logout-icon"><Link to="/login">  <AiOutlineLogout color="#333"/> </Link> </span>
             <Link to="/login" className="logout">Logout</Link>
           </div>
 
