@@ -57,7 +57,7 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(updateCartCount, 1000); // Every second
+    const interval = setInterval(updateCartCount, 1000); // updates Every second
     return () => clearInterval(interval);
   }, []);
 
@@ -93,7 +93,7 @@ export default function Header() {
                     onClick={() => {
                   
                       const categoryParam = (cat.slug || cat).toLowerCase().replace(/\s+/g, '-');
-                      navigate(`/products?category=${encodeURIComponent(categoryParam)}`);
+                      navigate(`/products?category=${(categoryParam)}`);
                       setShowDropdown(false);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
