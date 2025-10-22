@@ -3,6 +3,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Header.css';
 import { AiOutlineLogout } from "react-icons/ai";
 import { FaUser } from 'react-icons/fa'
+import cartLogo from '../data/shopping-cart.png';
+import Logo from '../data/logo.png'
 
 export default function Header() {
   const [categories, setCategories] = useState([]);
@@ -67,7 +69,7 @@ export default function Header() {
       <div className="header-hero">
 
         <div className="header-left" onClick={goToProducts}>
-          <img src="src/data/logo.png" alt="logo" className="logo-img" />
+          <img src={Logo} alt="logo" className="logo-img" />
           <h1 className="brand-name">Cartify</h1>
         </div>
 
@@ -109,7 +111,7 @@ export default function Header() {
           </nav>
           {!isCartPage && (
             <Link to="/cart" className="cart-container">
-              <img src="src/data/shopping-cart.png" alt="cartlogo" className="icon-img" />
+              <img src={cartLogo} alt="cartlogo" className="icon-img" />
               <span className="cart-label">Cart({cartCount})</span>
             </Link>
           )}
