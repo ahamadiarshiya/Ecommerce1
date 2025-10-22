@@ -75,7 +75,7 @@ function ProductDetailsPage() {
       <div className="details">
         <h1>{product.title}</h1>
         <p className="price">
-          <strong>Price:</strong> ${product.price}
+          <strong>Price:</strong> &#8377;{product.price}
         </p>
         <p className="category">
           <strong>Category:</strong> {product.category}
