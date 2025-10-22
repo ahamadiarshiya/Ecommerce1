@@ -11,10 +11,18 @@ function MyCart() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const loadCartFromStorage = async () => {
       try {
-        const response = await axios.get("https://dummyjson.com/products?limit=194");
         const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+        if (cartItems.length === 0) {
+          setCartProducts([]);
+          setQuantities({});
+          return;
+        }
+
+        const response = await axios.get("https://dummyjson.com/products?limit=194");
+
         const filteredProducts = response.data.products.filter(product =>
           cartItems.some(cartItem => cartItem.id === product.id)
         );
@@ -27,58 +35,78 @@ function MyCart() {
         });
         setQuantities(quantitiesFromStorage);
       } catch (err) {
-        console.log("Error fetching data:", err);
+        console.log("Error loading cart:", err);
       }
     };
 
-    fetchData();
+    loadCartFromStorage();
   }, []);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     const totalPrice = cartProducts.reduce((total, product) => {
       const quantity = quantities[product.id] || 1;
       return total + product.price * quantity;
     }, 0);
-
     setTotal(totalPrice);
   }, [cartProducts, quantities]);
 
-const handleIncrement = (productId) => {
-  setQuantities((prev) => {
-    const newQuantity = (prev[productId] || 1) + 1;
+  const handleIncrement = (productId) => {
+    setQuantities((prev) => {
+      const newQuantity = (prev[productId] || 1) + 1;
 
-    const cartItemsStr = localStorage.getItem('cartItems');
-    const cartItems = cartItemsStr ? JSON.parse(cartItemsStr) : [];
+      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const index = cartItems.findIndex(item => item.id === productId);
 
-    const productIndex = cartItems.findIndex(item => item.id === productId);
+      if (index !== -1) {
+        cartItems[index].quantity = newQuantity;
+      } else {
+        cartItems.push({ id: productId, quantity: newQuantity });
+      }
 
-    if (productIndex !== -1) {
-      cartItems[productIndex].quantity = newQuantity;
-    } else {
-      cartItems.push({ id: productId, quantity: newQuantity });
-    }
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-
-    return {
-      ...prev,
-      [productId]: newQuantity,
-    };
-  });
-};
-
+      return {
+        ...prev,
+        [productId]: newQuantity,
+      };
+    });
+  };
 
   const handleDecrement = (productId) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [productId]: prev[productId] > 1 ? prev[productId] - 1 : 1,
-    }));
+    const currentQty = quantities[productId];
+
+    if (currentQty > 1) {
+      const updatedQuantities = {
+        ...quantities,
+        [productId]: currentQty - 1,
+      };
+
+      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const updatedCartItems = cartItems.map(item =>
+        item.id === productId ? { ...item, quantity: updatedQuantities[productId] } : item
+      );
+
+      localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+      setQuantities(updatedQuantities);
+    } else {
+      // Remove from quantities and cart
+      const updatedQuantities = { ...quantities };
+      delete updatedQuantities[productId];
+      setQuantities(updatedQuantities);
+
+      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const updatedCart = cartItems.filter(item => item.id !== productId);
+
+      localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+
+      const updatedCartProducts = cartProducts.filter(product => product.id !== productId);
+      setCartProducts(updatedCartProducts);
+    }
   };
 
   const handleDelete = (productId) => {
-    const updatedCart = cartProducts.filter(product => product.id !== productId);
-    setCartProducts(updatedCart);
+    const updatedCartProducts = cartProducts.filter(product => product.id !== productId);
+    setCartProducts(updatedCartProducts);
 
     const updatedQuantities = { ...quantities };
     delete updatedQuantities[productId];
@@ -90,7 +118,7 @@ const handleIncrement = (productId) => {
   };
 
   if (cartProducts.length === 0) {
-    return <div className="no-products"><b>No items found in your cart.</b></div>
+    return <div className="no-products"><b>No items found in your cart.</b></div>;
   }
 
   return (
