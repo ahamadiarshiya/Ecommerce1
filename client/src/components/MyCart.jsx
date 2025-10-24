@@ -8,7 +8,7 @@ function MyCart() {
   const [cartProducts, setCartProducts] = useState([]);
   const [quantities, setQuantities] = useState({});
   const [total, setTotal] = useState(0);
-  const[showPopup,setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const navigate = useNavigate();
 
@@ -91,48 +91,45 @@ function MyCart() {
       localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
       setQuantities(updatedQuantities);
     } else {
-      const updatedQuantities = { ...quantities };
-      delete updatedQuantities[productId];
-      setQuantities(updatedQuantities);
-
-      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-      const updatedCart = cartItems.filter(item => item.id !== productId);
-
-      localStorage.setItem("cartItems", JSON.stringify(updatedCart));
-
-      const updatedCartProducts = cartProducts.filter(product => product.id !== productId);
-      setCartProducts(updatedCartProducts);
+      setProductToDelete(productId);
+      setShowPopup(true);
     }
   };
 
-  const handleDelete = (productId) => {
-    setShowPopup(true)
-    const updatedCartProducts = cartProducts.filter(product => product.id !== productId);
-    setCartProducts(updatedCartProducts);
-    
+  // ✅ Triggered when trash icon clicked
+  const confirmDelete = (productId) => {
+    setProductToDelete(productId);
+    setShowPopup(true);
+  };
+
+  // ✅ Delete confirmed
+  const handleConfirmeDelete = () => {
+    if (!productToDelete) return;
+
+    const productId = productToDelete;
+
     const updatedQuantities = { ...quantities };
     delete updatedQuantities[productId];
     setQuantities(updatedQuantities);
 
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const newCart = cartItems.filter(item => item.id !== productId);
-    localStorage.setItem("cartItems", JSON.stringify(newCart));
-     setShowPopup(false)
+    const updatedCart = cartItems.filter(item => item.id !== productId);
+    localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+
+    const updatedCartProducts = cartProducts.filter(product => product.id !== productId);
+    setCartProducts(updatedCartProducts);
+
+    setShowPopup(false);
+    setProductToDelete(null);
+  };
+  const handleCancelDelete = () => {
+    setShowPopup(false);
+    setProductToDelete(null);
   };
 
   if (cartProducts.length === 0) {
     return <div className="no-products"><b>No items found in your cart.</b></div>;
   }
-
-  const handleCancelDelete = () => {
-    setShowPopup(false)
-  }
-
-
-  const confirmDelete = (productId) => {
-  setProductToDelete(productId);
-  setShowPopup(true);
-};
 
   return (
     <div className="cart-page">
@@ -166,17 +163,11 @@ function MyCart() {
               </div>
 
               <div className="cart-count">
-                <button
-                  className="quantity"
-                  onClick={() => handleDecrement(product.id)}
-                >
+                <button className="quantity" onClick={() => handleDecrement(product.id)}>
                   -
                 </button>
                 <div className="quantity-value">{quantity}</div>
-                <button
-                  className="quantity"
-                  onClick={() => handleIncrement(product.id)}
-                >
+                <button className="quantity" onClick={() => handleIncrement(product.id)}>
                   +
                 </button>
               </div>
@@ -198,68 +189,65 @@ function MyCart() {
           <button className="final-buttons" onClick={() => navigate("/products")}>
             Continue Shopping
           </button>
-          <button
-            className="final-buttons"
-            onClick={() => navigate("/shipping")}
-          >
+          <button className="final-buttons" onClick={() => navigate("/shipping")}>
             Checkout
           </button>
         </div>
       </div>
       {showPopup && (
-  <div
-    style={{
-      position: "fixed",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      background: "white",
-      padding: "20px",
-      border: "2px solid #333",
-      borderRadius: "8px",
-      boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
-      zIndex: 1000,
-      textAlign: "center",
-    }}
-  >
-    <p>Are you sure you want to delete this?</p>
-    <div
-      style={{
-        display: "flex",
-        gap: "10px",
-        justifyContent: "center",
-        marginTop: "10px",
-      }}
-    >
-      <button
-        style={{
-          background: "#e74c3c",
-          color: "white",
-          border: "none",
-          padding: "5px 10px",
-          borderRadius: "4px",
-          cursor: "pointer",
-        }}
-        onClick={() => handleDelete(productToDelete)}
-      >
-        Yes
-      </button>
-      <button
-        style={{
-          background: "#95a5a6",
-          color: "white",
-          border: "none",
-          padding: "5px 10px",
-          borderRadius: "4px",
-          cursor: "pointer",
-        }}
-        onClick={() => handleCancelDelete()}
-      >
-        No
-      </button>
-    </div>
-  </div>
-)}
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            background: "white",
+            padding: "20px",
+            border: "2px solid #333",
+            borderRadius: "8px",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+            zIndex: 1000,
+            textAlign: "center",
+          }}
+        >
+          <p>Are you sure you want to delete this?</p>
+          <div
+            style={{
+              display: "flex",
+              gap: "10px",
+              justifyContent: "center",
+              marginTop: "10px",
+            }}
+          >
+            <button
+              style={{
+                background: "#e74c3c",
+                color: "white",
+                border: "none",
+                padding: "5px 10px",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+              onClick={handleConfirmeDelete}
+            >
+              Yes
+            </button>
+            <button
+              style={{
+                background: "#95a5a6",
+                color: "white",
+                border: "none",
+                padding: "5px 10px",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+              onClick={handleCancelDelete}
+            >
+              No
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
