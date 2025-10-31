@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "../styles/LoginPage.css";
+import "../styles/signUp.css";
 
-function LoginPage() {
+function SignUpPage() {
   const navigate = useNavigate();
   const handleLogin = (e) => {
     e.preventDefault();
@@ -12,10 +12,10 @@ function LoginPage() {
   return (
 
     <div className="hero">
-      <div className="login-page">
-        <div className="login-box">
+      <div className="signup-page">
+        <div className="signup-box">
           <h2>Welcome 👋</h2>
-          <p className="subtitle">Login to your account</p>
+          <p className="subtitle">Signup to your account</p>
 
           <form onSubmit={handleLogin}>
             <div className="input-group">
@@ -27,19 +27,16 @@ function LoginPage() {
               <label>Password</label>
               <input type="password" placeholder="Enter your password" minLength="8" required />
             </div>
-            <button type="submit" className="login-btn" >Login</button>
-
-            
-
+            <button type="submit" className="signup-btn" >Sign Up</button>
           </form>
 
-          <span className="signUp"> Dont have an account <Link to= "/signUp"> sign up </Link></span>
-            
+           <span className="login"> Already have an account <Link to= "/login"> Login </Link></span>
+
         </div>
       </div>
     </div>
   );
 }
-export default LoginPage;
+export default SignUpPage;
 
 

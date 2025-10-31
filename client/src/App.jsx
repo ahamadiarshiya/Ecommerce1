@@ -5,6 +5,7 @@ import ProductDetailsPage from './components/ProductDetailsPage.jsx';
 import Layout from './components/Layout.jsx';
 import MyCart from './components/MyCart.jsx';
 import ShippingDetails from './components/ShippingDetails.jsx';
+import SignUpPage from './components/signUp.jsx';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path='/signUp' element={<SignUpPage />} />
         <Route element={<Layout />}>
           <Route path="/products" element={<ProductList />} />
           <Route path="/products/:id" element={<ProductDetailsPage />} />
