@@ -19,12 +19,26 @@ function SignUpPage() {
 
           <form onSubmit={handleLogin}>
             <div className="input-group">
+              <label>Name</label>
+              <input type="text" placeholder="Enter your name"   pattern="^[^@]+@[^@]*\.[^@]+$"
+           title="Email must contain at least one dot (.) after the '@' symbol."required />
+            </div>
+            <div className="input-group">
               <label>Email</label>
               <input type="email" placeholder="Enter your email"   pattern="^[^@]+@[^@]*\.[^@]+$"
            title="Email must contain at least one dot (.) after the '@' symbol."required />
             </div>
             <div className="input-group">
+              <label>Mobile</label>
+              <input type="tel" placeholder="Enter your mobile"   pattern="^[^@]+@[^@]*\.[^@]+$"
+           title="Email must contain at least one dot (.) after the '@' symbol."required />
+            </div>
+            <div className="input-group">
               <label>Password</label>
+              <input type="password" placeholder="Enter your password" minLength="8" required />
+            </div>
+              <div className="input-group">
+              <label>Confirm Password</label>
               <input type="password" placeholder="Enter your password" minLength="8" required />
             </div>
             <button type="submit" className="signup-btn" >Sign Up</button>
