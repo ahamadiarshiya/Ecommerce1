@@ -1,20 +1,30 @@
-const express = require("express");
-const db = require("../config/db")
+const Shipping = require("../models/shipping");
 
+const addShippingInfo = async (req, res) => {
+  const { address, userId } = req.body;
 
-const addShippingInfo = () => {
-   const data = req.body;
-   try{
-   const shipingAddress = db.query('INSERT INTO shipping(address) VALUES(?)[data.address]');
-   return res.status(200).json({ success : true, data : shipingAddress, message : "Data saved successfully"})
-   }catch(err){
-    return res.status(500).json({ success : false, message : err.message })
-   }
+  if (!address || !userId) {
+  return res.status(400).json({ success: false, message: "Address and userId are required" });
 }
 
 
-
+  try {
+    const shippingAddress = await Shipping.create({
+      address,
+      userId,
+    });
+    return res
+      .status(201)
+      .json({
+        success: true,
+        data: shippingAddress,
+        message: "Data saved successfully",
+      });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
 
 module.exports = {
-    addShippingInfo
-}
+  addShippingInfo,
+};

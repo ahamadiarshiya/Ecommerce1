@@ -12,6 +12,7 @@ const Cart = sequelize.define("Cart", {
     userId : {
         type : DataTypes.INTEGER,
         allowNull : false,
+        primaryKey : true,
         references : {
             model : "Users",
             key : 'id'
@@ -20,6 +21,7 @@ const Cart = sequelize.define("Cart", {
     productId : {
         type : DataTypes.INTEGER,
         allowNull : false,
+        primaryKey : true,
         references:  {
             model : "Products",
             key : 'id'
