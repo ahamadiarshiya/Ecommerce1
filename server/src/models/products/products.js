@@ -52,7 +52,9 @@ const Products = sequelize.define("Products", {
         type : DataTypes.DECIMAL(10,2),
         allowNull : false
     }},
-    { timestamps : true }
+    { timestamps : true,
+        paranoid : true
+     }
 );
 
 

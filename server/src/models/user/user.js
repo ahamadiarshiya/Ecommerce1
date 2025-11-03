@@ -34,7 +34,10 @@ const User = sequelize.define("User", {
         defaultValue : DataTypes.NOW
     }
     },
-  { timestamps  : true }
+  { timestamps  : true, 
+    paranoid : true
+  },
+  
 );
 
 
