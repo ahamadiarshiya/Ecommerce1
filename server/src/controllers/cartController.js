@@ -1,5 +1,5 @@
-const Cart = require("../models/cart");
-const Products = require("../models/product");
+const Cart = require("../models/cart/cart");
+const Products = require("../models/products/products");
 
 
 

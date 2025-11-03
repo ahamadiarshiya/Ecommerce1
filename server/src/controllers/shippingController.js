@@ -1,4 +1,4 @@
-const Shipping = require("../models/shipping");
+const Shipping = require("../models/shipping/shipping");
 
 const addShippingInfo = async (req, res) => {
   const { address, userId } = req.body;

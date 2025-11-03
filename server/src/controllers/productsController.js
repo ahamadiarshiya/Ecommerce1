@@ -1,4 +1,4 @@
-const Products = require("../models/products");
+const Products = require("../models/products/products");
 
 const products = async (req, res) => {
   try {
