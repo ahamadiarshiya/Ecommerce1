@@ -10,9 +10,6 @@ const saltRounds = 10;
 
 const DATA_FILE = path.join(__dirname, "../../data/credentials.json");
 
-console.log("Current file:", __dirname);
-console.log("Data file path:", DATA_FILE);
-
 const validateUser = ajv.compile(userSchema);
 
 
