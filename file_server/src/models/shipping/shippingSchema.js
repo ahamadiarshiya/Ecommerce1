@@ -11,27 +11,35 @@ const Shipping = {
       "type": "integer",
       "description": "Foreign key referencing the user ID"
     },
+      "name": {
+      "type": "string", 
+      },
+    "email": {
+      "type": "string", 
+      "format": "email",
+       "maxLength": 50 
+      },
     "address": {
-      "type": "string",
-      "description": "Shipping address of the user"
+    "type": "string",
+    "description": "Shipping address of the user"
     },
-    "createdAt": {
-      "type": "string",
-      "format": "date-time",
+"createdAt": {
+  "type": "string",
+    "format": "date-time",
       "description": "Record creation timestamp"
-    },
-    "updatedAt": {
-      "type": "string",
-      "format": "date-time",
+},
+"updatedAt": {
+  "type": "string",
+    "format": "date-time",
       "description": "Record update timestamp"
-    },
-    "deletedAt": {
-      "type": ["string", "null"],
-      "format": "date-time",
+},
+"deletedAt": {
+  "type": ["string", "null"],
+    "format": "date-time",
       "description": "Soft delete timestamp (if paranoid mode is on)"
-    }
+}
   },
-  "required": ["userId", "address"],
+"required": ["userId", "address"],
   "additionalProperties": false
 }
 
