@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../styles/LoginPage.css";
 
 function LoginPage() {
@@ -28,7 +28,13 @@ function LoginPage() {
               <input type="password" placeholder="Enter your password" minLength="8" required />
             </div>
             <button type="submit" className="login-btn" >Login</button>
+
+            
+
           </form>
+
+          <span className="signUp"> Dont have an account <Link to= "/signUp"> sign up </Link></span>
+            
         </div>
       </div>
     </div>
